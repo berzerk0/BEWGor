@@ -13,4 +13,6 @@ ALPHA RELEASE COMING BEFORE THE END OF MAY 2017
  
 ### Code, explanation, and polished logo coming soon.
 
-This will be a 'flat' profiler - it will ask basically the same questions about all of the main subject's associates.
+Alpha release will be a 'flat' profiler - it will ask basically the same questions about all of the main subject's associates.
+
+Releases after this will not be, they will be tailored to associate's relationship.
