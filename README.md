@@ -38,7 +38,7 @@ No information is sent to any other location, or pulled from the web.
 
 *If you want to improve your password security, run BEWGor on __yourself__!*
 
-To see an example, check out the [Sample-Output File (1.6 Million Lines)[https://raw.githubusercontent.com/berzerk0/BEWGor/master/Sample_Output.txt]
+To see an example, check out the [Sample-Output File (1.6 Million Lines)}(https://raw.githubusercontent.com/berzerk0/BEWGor/master/Sample_Output.txt)
 
 
 ## What are “likely” passwords for a given subject?
