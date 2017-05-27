@@ -1,13 +1,11 @@
 # BEWGor - Bull's Eye Wordlist Generator
-## *Pick your knows!*
+*Pick your knows!*
 
 #### Does your password rely on predictable patterns of accessible info? 
 
 __Inspired by and based on [Mebus' CUPP](https://github.com/Mebus/cupp)__
 
-ALPHA RELEASE COMING BEFORE THE END OF MAY 2017
-
-## Under Construction, no code YET - working out the kinks.
+ALPHA RELEASED 27 May 2017
 
 ![Pick Your Knows!](https://raw.githubusercontent.com/berzerk0/BEWGor/master/bewgor_nose.png)
 
@@ -83,7 +81,7 @@ It prompts the user for a lot more specific information, but not have all of CUP
  * Includes Support for an arbitrary number of family members and pets
  * By using permutations to generate possible passwords, BEWGor can generate huge numbers of passwords
  * Create Upper/Lower/Reverse variations of inputted values
- * Save raw inputted values to a *Literals* file before variations are generated
+ * Save raw inputted values to a Terms file before variations are generated
  * Set upper and lower limits on output line length 
  * Check that an inputted Birthday is valid (not in the future, a false leap day, June 32nd, etc.)
  
@@ -163,9 +161,13 @@ This may be slimmed down in the future, but why not err on the side of having al
  * Pets - breed, age, multiple  pets…
 
  
-#### Ability to Save the Inputted Values - known as ‘literals’ to a Special File
+#### Ability to Save the Inputted Values - know as ‘Terms’ to a Special File
 This file can be edited outside of the script but can be fed into BEWGor directly, no prompting.
 
+#### Ability to Select Operational Modes With Input Arugments
+* Minimum Data Prompts (Don’t ask for optional prompts, one entry per prompt)
+* Maximum Data Prompts (Assume all prompts and variations included)
+* Maybe more
 
 
 ## Want to Contribute?

@@ -156,15 +156,16 @@ male_reg = re.compile('\s*[Mm][Aa][Ll][Ee]\s*') #matches all variations of the w
 female_reg = re.compile('\s*[Ff][Ee][Mm][Aa][Ll][Ee]\s*') #matches all variations of the word 'female'
 ends_in_space_reg = re.compile('\s+$') #matches strings with a space at the end - used to trim off this sapce
 space_of_space_reg = re.compile('\s+[Oo]f\s+') #matches strings containing ' of ' or ' Of ' - a unique TitleCase rule
-filename_reg = re.compile('[a-zA-Z0-9\-_]+') #forces  a friendly filename
+filename_reg = re.compile('^[a-zA-Z0-9\-_]+$') #forces  a friendly filename
 
 
 
 #Calculates number of permutations
 def nPr(n, r):
 	#Implements the mathematical formula for permutations
-	
-    return factorial(n)/factorial(n-r)
+	if n-r > 0:
+		return factorial(n)/factorial(n-r)
+	else: return 1
 	# nPr = (n!)/(n-r)!
 
 #Creates all possible permutations of a given list
@@ -251,7 +252,9 @@ def divider():
 
 # Pause, press enter to coninue
 def hold_up():
-	hold_up = raw_input('Press enter to continue...')
+	#This variable is never used, it is just a pause placeholder
+	#It does not persist after unpausing
+	holdup = raw_input('Press enter to continue...')
 
 def isYearFuture(year):
 	date_format = "%Y" #sets 'YYYY" format
@@ -449,19 +452,19 @@ def spaceShaver(phrase):
 # The plan is to generate a specially formatted file that can be
 # created to and then fed into this program directly instead of going prompt by prompt
 # ALPHA RELEASE FUNCTION - outputs all entered values to a file.
-def outputLiterals(lit_list):
+def outputTerms(term_list):
 	
-	print("""\n ---------- Output 'Literals' to a File --------
+	print("""\n ---------- Output 'Terms' to a File --------
 		  
  All values have been entered, BEWGor can save them directly to a txt file.""")
 	
-	lit_write_choice = raw_input('> Would you like to do this? (Y\N) >:').upper() #prompts user for choice
-	lit_write_choice = spaceShaver(lit_write_choice)
+	term_write_choice = raw_input('> Would you like to do this? (Y/N) >:').upper() #prompts user for choice
+	term_write_choice = spaceShaver(term_write_choice)
 	
-	if lit_write_choice in "YES" and len(lit_write_choice) != 0:
+	if term_write_choice in "YES" and len(term_write_choice) != 0:
 		
-		print(' If you do not enter a filename, the default will be "BEWGor_Literals.txt')
-		outfile_name = raw_input('> Enter a filename, without the ".txt" extension  >:')
+		print(' If you do not enter a filename, the default will be "BEWGor_Terms.txt')
+		outfile_name = raw_input('> Enter a filename, without the ".txt" extension >:')
 		
 		# If the inputted filename is non-zero in length, but contains unfriendly characters
 		# Sometimes filenames containing characters like spaces () " ' {} can cause problems
@@ -469,31 +472,31 @@ def outputLiterals(lit_list):
 		
 		while len(outfile_name) !=0 and not filename_reg.match(outfile_name):
 			print(' [-] Invalid filename, try again.')
-			outfile_name = raw_input("> Enter a filename, without the .txt extension  >:")
+			outfile_name = raw_input("> Enter a filename, without the .txt extension >:")
 				
 			
-		if len(outfile_name) ==0 : outfile_name = 'BEWGor_Literals'
+		if len(outfile_name) ==0 : outfile_name = 'BEWGor_Terms'
 		
 		outfile = open(outfile_name+'.txt','w+') #opens file to be written
 		outfile.truncate() # ensures file is empty
 		
-		lit_list.sort(key=len) # sort by length
-		lit_list = list(set(lit_list)) #removes duplicates
+		term_list.sort(key=len) # sort by length
+		term_list = list(set(term_list)) #removes duplicates
 		
-		for item in lit_list: #write every line to file
+		for item in term_list: #write every line to file
 			outfile.writelines(item + '\n') #write to file
 		
 		divider()
 		
-		#announces that the Literals file has been written and its length
-		print('\n ' + str(len(lit_list)) + ' literals written to ' + outfile_name + '.txt') 
+		#announces that the Terms file has been written and its length
+		print('\n ' + str(len(term_list)) + ' terms written to ' + outfile_name + '.txt') 
 
 #General class for the people mentioned in the prompt
 #Parent class of MAINSUBJECT
 class Person(object): #This class allows us to easily add and store information for an aribitrary number of people
 
 	#Initialize Person Class and variables
-	def __init__(self,name,maiden_name,initials,nicknames,birth_day,birth_year,greek_zodiac,chinese_zodiac,birthstone):
+	def __init__(self,name,maiden_name,initials,nicknames,birth_day,birth_year,greek_zodiac,chinese_zodiac,Birthstone):
 		self.name=name
 		self.maiden_name = maiden_name
 		self.initials = initials
@@ -502,7 +505,7 @@ class Person(object): #This class allows us to easily add and store information 
 		self.birth_year=birth_year
 		self.greek_zodiac = greek_zodiac
 		self.chinese_zodiac = chinese_zodiac
-		self.birthstone = birthstone
+		self.Birthstone = Birthstone
 
 	#Person Class Function that requests Person's Name
 	def getName(self):
@@ -613,7 +616,7 @@ class Person(object): #This class allows us to easily add and store information 
 
 	#Person Class Function that requests Birth day (no year)
 	def getBirthday(self):
-		print(' Be Aware BEWGor uses DDMM formatting!\n Winter Solstice falls on 21/12 in this format.')
+		print(' Be Aware BEWGor uses DDMM formatting!\n Winter Solstice falls on  21/12, 22/12, or 23/12 in this format.')
 		person_birth_day = raw_input("> Enter " + self.name +"'s Birthday (without year, DDMM) >:")
 		
 		valid = False # without this boolean, we might get stuck in a logical loop if the user enters an invalid input followed by an empty one
@@ -674,7 +677,7 @@ class Person(object): #This class allows us to easily add and store information 
 		greek_zodiac = '' #sets a null value, so if user doesn't want to include this value, BEWGor can pass an empty value
 		
 		
-		incl_Greek_Zod = raw_input("Would you like to include " + self.name + "'s Greek Zodiac Sign? (Y/N)  >:").upper() #only determines/includes Greek Zodiac sign if user allows it
+		incl_Greek_Zod = raw_input("Would you like to include " + self.name + "'s Greek Zodiac Sign? (Y/N) >:").upper() #only determines/includes Greek Zodiac sign if user allows it
 		
 		incl_Greek_Zod = spaceShaver(incl_Greek_Zod) # cleans up input and stops false negative with "yes "
 		
@@ -769,46 +772,46 @@ class Person(object): #This class allows us to easily add and store information 
 		# If your Subject is into astrology or New Age belief, this could be of great importance to them
 		# It also might mean they are vulnerable to social engineering and cold reading often practiced by 'psychics'
 		
-		birthstone = '' #sets a null value, so if user doesn't want to include this value, BEWGor can pass an empty value
+		Birthstone = '' #sets a null value, so if user doesn't want to include this value, BEWGor can pass an empty value
 		
-		incl_birthstone = raw_input("Would you like to include " + self.name + "'s birthstone (Y/N)  >:").upper()  #only determines/includes birthstone if user allows it
+		incl_Birthstone = raw_input("Would you like to include " + self.name + "'s Birthstone (Y/N) >:").upper()  #only determines/includes Birthstone if user allows it
 		
-		incl_birthstone = spaceShaver(incl_birthstone) # cleans up input and stops false negative with "yes "
+		incl_Birthstone = spaceShaver(incl_Birthstone) # cleans up input and stops false negative with "yes "
 		
-		if incl_birthstone in "YES" and len(incl_birthstone) != 0: #if user enters 'yesno,' they think they are slick and BEWGor will treat their input as a 'yes'#only take action if user requests it
+		if incl_Birthstone in "YES" and len(incl_Birthstone) != 0: #if user enters 'yesno,' they think they are slick and BEWGor will treat their input as a 'yes'#only take action if user requests it
 		#if user enters 'yesno,' they think they are slick and BEWGor will treat their input as a 'yes'
 			
 			birthmonth = self.birth_day[2:4] #isolate birth month
 			
-			print (" Is " + self.name + " more likely to use a birthstone from a Western or Hindu list?") #there are multiple lists of Birthstones, two are included
+			print ("\n Is " + self.name + " more likely to use a Birthstone from a Western or Hindu list?") #there are multiple lists of Birthstones, two are included
 			stone_choice = raw_input("> Enter 1 for Western, 2 for Hindu, or 3 to use both >:")
 			
 			#If user inputs a choice not on the list of provided choices, the process repeats until they do.
 			while stone_choice !=str(1) and  stone_choice !=str(2) and stone_choice != str(3):
 				print (' [-] Invalid choice, try again.')
-				print (" Is " + self.name + " more likely to use a birthstone from a Western or Hindu list?")
+				print (" Is " + self.name + " more likely to use a Birthstone from a Western or Hindu list?")
 				stone_choice = raw_input("> Enter 1 for Western, 2 for Hindu, or 3 to use both >:")
 
 			if stone_choice == str(1): #if user requests a Western list
 				western_dict = {'01' :'garnet', '02' :'amethyst', '03' :'aquamarine', '04' :'diamond', '05' :'emerald', '06' :'pearl', '07' :'ruby', '08' :'peridol', '09' :'sapphire', '10' :'opal', '11' :'topaz', '12' :'turquoise'}
-				birthstone = str(western_dict.get(birthmonth)).lower()
+				Birthstone = str(western_dict.get(birthmonth)).lower()
 
 			elif stone_choice == str(2): #if user requests a Hindu list
 				hindu_dict = {'01' :'serpent-stone', '02' :'chandrakanta', '03' :'siva-linga', '04' :'diamond', '05' :'emerald', '06' :'pearl', '07' :'sapphire', '08' :'ruby', '09' :'zircon', '10' :'coral', '11' :'cats-eye', '12' :'topaz'}
-				birthstone = str(hindu_dict.get(birthmonth)).lower()
+				Birthstone = str(hindu_dict.get(birthmonth)).lower()
 			
 			elif stone_choice == str(3): #if user requests both lists
 				western_dict = {'01' :'garnet', '02' :'amethyst', '03' :'aquamarine', '04' :'diamond', '05' :'emerald', '06' :'pearl', '07' :'ruby', '08' :'peridol', '09' :'sapphire', '10' :'opal', '11' :'topaz', '12' :'turquoise'}
 				hindu_dict = {'01' :'serpent-stone', '02' :'chandrakanta', '03' :'siva-linga', '04' :'diamond', '05' :'emerald', '06' :'pearl', '07' :'sapphire', '08' :'ruby', '09' :'zircon', '10' :'coral', '11' :'cats-eye', '12' :'topaz'}
 			
 				if western_dict.get(birthmonth) != hindu_dict.get(birthmonth): # include both dictionaries if stones aren't the same
-					birthstone = (str(western_dict.get(birthmonth)).lower() + " " + (str(hindu_dict.get(birthmonth)).lower()))	
-				else: birthstone = str(western_dict.get(birthmonth)).lower() # if the stones are the same, use just one list
+					Birthstone = (str(western_dict.get(birthmonth)).lower() + " " + (str(hindu_dict.get(birthmonth)).lower()))	
+				else: Birthstone = str(western_dict.get(birthmonth)).lower() # if the stones are the same, use just one list
 			
-			print ("\n [+] Recorded " + self.name + "'s birthstone as '" + birthstone.title() +"' \n") #alert user to inclusion of birthstone word
+			print ("\n [+] Recorded " + self.name + "'s Birthstone as '" + Birthstone.title() +"' \n") #alert user to inclusion of Birthstone word
 
 
-		self.birthstone= birthstone #change value to entry - including to a null value if nothing is entered
+		self.Birthstone= Birthstone #change value to entry - including to a null value if nothing is entered
 			
 	#Person Class function that determines Chinese Zodiac Sign (Mythological) from birth year
 	def getPersonChineseZodiac(self):
@@ -825,7 +828,7 @@ class Person(object): #This class allows us to easily add and store information 
 		
 		if len (self.birth_year) == 4: # Chinese Zodiac sign can only be determined if a birth year is given
 			
-			incl_Chinese_Zod = raw_input("Would you like to include " + self.name + "'s Chinese Zodiac Sign? (Y/N)  >:").upper() #only determines/includes Chinese Zodiac sign if user allows it
+			incl_Chinese_Zod = raw_input("Would you like to include " + self.name + "'s Chinese Zodiac Sign? (Y/N) >:").upper() #only determines/includes Chinese Zodiac sign if user allows it
 			
 			incl_Chinese_Zod = spaceShaver(incl_Chinese_Zod) # cleans up input and stops false negative with "yes "
 		
@@ -887,7 +890,7 @@ class Person(object): #This class allows us to easily add and store information 
 			self.getBirthstone()
 		else:
 			self.greek_zodiac = ''
-			self.birthstone = ''
+			self.Birthstone = ''
 
 		if len(self.birth_year) != 0:
 			divider()
@@ -913,7 +916,7 @@ class Person(object): #This class allows us to easily add and store information 
 		if len(self.maiden_name) != 0: word_output.append((self.maiden_name).lower()) # add Person's maiden name, assumed to not have spaces
 		if len(self.nicknames) != 0: word_output.extend(((self.nicknames).lower()).split(' ')) # add person's nicknames, if present, broken up by spaces
 		if len(self.greek_zodiac) != 0: word_output.append((self.greek_zodiac).lower()) # add greek zodiac sign if present
-		if len(self.birthstone) != 0: word_output.extend((self.birthstone).lower().split(' ')) # add birthstone(s) if present
+		if len(self.Birthstone) != 0: word_output.extend((self.Birthstone).lower().split(' ')) # add Birthstone(s) if present
 		if len(self.chinese_zodiac) != 0:word_output.extend((self.chinese_zodiac).lower().split(' ')) # add chinese zodiac if present
 
 		return word_output
@@ -956,7 +959,7 @@ class Person(object): #This class allows us to easily add and store information 
 # Child class of PERSON
 class MainSubject(Person):
 
-	def __init__(self,name,maiden_name,initials,nicknames,birth_day,birth_year,greek_zodiac,chinese_zodiac,birthstone,gender,nationality,natl_demonym,natl_day,ethnicity,birthplace,hometown):
+	def __init__(self,name,maiden_name,initials,nicknames,birth_day,birth_year,greek_zodiac,chinese_zodiac,Birthstone,gender,nationality,natl_demonym,natl_day,ethnicity,birthplace,hometown):
 		
 		#Create Main Subject Variables
 		self.name = name
@@ -978,28 +981,6 @@ class MainSubject(Person):
 	#Requests main subjects gender identity
 	def getGender(self):
 		
-		#Includes a message about getting the best wordlist
-		print("""
-		      ---AUTHOR'S NOTE---
-			  
- The following section contain ideas that can be considered
- controversial at the time of this writing.
- Your beliefs (or mine) on gender identity are
- 
-	    ***NOT RELEVANT TO GENERATING A WORDLIST***
-		
- Your subject's beliefs may be different than yours, and
- that may be reflected in their identity. The more
- possibilities you consider, the more likely you are to
- generate the right Word.
- 
-		---END OF AUTHOR'S NOTE---
-		""")
-		
-		hold_up() #Press enter to continue
-		divider()
-		
-		#
 		print ("---" + self.name +"'s Gender Identity, in all relevant forms---")
 		print (""" 
      MALE and FEMALE are the most commonly identified genders.
@@ -1058,7 +1039,7 @@ class MainSubject(Person):
 						
 						if male_syn_choice in "YES" and len(male_syn_choice) != 0:
 							gender_cands.extend(['man','bro','dude','sir','gent','mr','mister','guy','boy','boi'])
-							print ('\n [+] Synonyms for Male added')
+							print ('\n [+] Synonyms for Male added \n')
 					
 					if female_reg.match(gender):
 						gender_cands.append('female')
@@ -1073,7 +1054,7 @@ class MainSubject(Person):
 					entered.append(gender)
 					
 					gender = raw_input("> Enter a value for " + self.name +"'s Identified Gender, or press enter to move on >:")
-					print ('\n [+] Synonyms for Female added')
+					print ('\n [+] Synonyms for Female added \n')
 					
 		gender_cands=list(set(gender_cands))  #removes duplicates from list	
 		self.gender = ' '.join(gender_cands)  #change value to entry - including to a null value if nothing is entered
@@ -1281,7 +1262,7 @@ class MainSubject(Person):
 		ethnicity_cands =[] #list that will contain inputted ethnonyms, or return blank if none are given
 		entered = []
 		
-		ethnicity = raw_input("> Enter an ethnonym for " + self.name + ", or simply press enter to move on  >:")
+		ethnicity = raw_input("> Enter an ethnonym for " + self.name + ", or simply press enter to move on >:")
 		
 		# If the user enters a value, it must meet criteria
 		# until all criteria is met, or a Null value is entered, BEWGor will keep asking
@@ -1289,15 +1270,15 @@ class MainSubject(Person):
 			
 			if nonzero_blankspace_reg.match(ethnicity): #ensures input isn't only blank space characters
 				print (" [-] Empty Space, try again.")
-				ethnicity = raw_input("> Enter an ethnonym for " + self.name + ", or simply press enter to move on  >:")
+				ethnicity = raw_input("> Enter an ethnonym for " + self.name + ", or simply press enter to move on >:")
 
 			elif not location_chars_reg.match(ethnicity): #checks to see if input contains any characters that probably wouldn't be in a Country's name
 				print (" [-] Input contains invalid characters, try again.")
-				ethnicity = raw_input("> Enter an ethnonym for " + self.name + ", or simply press enter to move on  >:")
+				ethnicity = raw_input("> Enter an ethnonym for " + self.name + ", or simply press enter to move on >:")
 			
 			elif ethnicity in ethnicity_cands or ethnicity in entered: #check for double input
 				print (" [-] That input has already been added to the list.\n  Some inputs are added automatically, try again.")
-				ethnicity = raw_input("> Enter an ethnonym for " + self.name + ", or simply press enter to move on  >:")
+				ethnicity = raw_input("> Enter an ethnonym for " + self.name + ", or simply press enter to move on >:")
 				
 			else:
 				if ' ' in ethnicity: #if a ethnicity contains spaces, split it up so BEWGor can join the words together with variations
@@ -1308,7 +1289,7 @@ class MainSubject(Person):
 					ethnicity_cands.append(ethnicity)
 					entered.append(ethnicity)
 					
-				ethnicity = raw_input("> Enter an ethnonym for " + self.name + ", or simply press enter to move on  >:")
+				ethnicity = raw_input("> Enter an ethnonym for " + self.name + ", or simply press enter to move on >:")
 		
 		
 		ethnicity_cands = list(set(ethnicity_cands)) # removes duplicates from entered values
@@ -1373,7 +1354,7 @@ class MainSubject(Person):
  And often overlaps with birthplace.
  Again, consider nicknames for the location.
  
- If this answer overlaps with birthplace, simple press enter to move on
+ If this answer overlaps with birthplace, simply move on.
  """)
 		hometown = raw_input("> Enter " + self.name +"'s hometown, or press enter to move on >:")
 		
@@ -1456,7 +1437,7 @@ class MainSubject(Person):
 		
 		else:
 			self.greek_zodiac = ''
-			self.birthstone = ''
+			self.Birthstone = ''
 			
 		if len(self.birth_year) != 0:
 			divider()
@@ -1465,7 +1446,7 @@ class MainSubject(Person):
 		
 		
 		#Get the Main-Subject Specific Data
-		divider()	
+		
 		self.getGender()
 		divider()
 		self.getNationality()
@@ -1491,7 +1472,7 @@ class MainSubject(Person):
 		if len(self.maiden_name) != 0: word_output.append((self.maiden_name).lower())
 		if len(self.nicknames) != 0: word_output.extend(((self.nicknames).lower()).split(' '))
 		if len(self.greek_zodiac) != 0: word_output.append((self.greek_zodiac).lower())
-		if len(self.birthstone) != 0: word_output.extend(((self.birthstone).lower()).split(' '))
+		if len(self.Birthstone) != 0: word_output.extend(((self.Birthstone).lower()).split(' '))
 		if len(self.chinese_zodiac) != 0:word_output.extend(((self.chinese_zodiac).lower()).split(' '))
 		if len(self.gender) != 0:word_output.extend(((self.gender).lower()).split(' '))
 		if len(self.nationality) != 0:word_output.extend((self.nationality).split(' '))
@@ -1552,7 +1533,7 @@ def getAssociates():
 	
 	#Create Significant Other Instances (just one for now)
 	# IN ALPHA THESE ARE SIMPLY THE 'PERSON' CLASS
-	SO_choice = raw_input("Do you have information on the Main Subject's Significant Other? (Y\N) >:").upper()
+	SO_choice = raw_input("Does the Main Subject have a Significant Other you have information on? (Y/N) >:").upper()
 	
 	SO_choice = spaceShaver(SO_choice) #cleans up answer - stops false negative with "yes "
 	
@@ -1566,13 +1547,13 @@ def getAssociates():
 	#(Son and daughter, not 'children' in the context of Python classes)
 	# IN ALPHA THESE ARE SIMPLY THE 'PERSON' CLASS
 	print ("How many of the Main Subject's children do you have information on? \nEnter '0' if there are none.")
-	children_choice = raw_input("> Enter the number here  >:")
+	children_choice = raw_input("> Enter the number here >:")
 	
 	# If user inputs a choice not on the list of provided choices, the process repeats until they do.
 	while not at_least_one_dig_reg.match(children_choice):
 		print (" [-] Invalid choice, try again.")
 		print ("How many of the Main Subject's children do you have information on? \nEnter '0' if there are none.")
-		children_choice = raw_input("> Enter the number here  >:")
+		children_choice = raw_input("> Enter the number here >:")
 		
 	if (children_choice) != str(0):
 		for i in range(1,int(children_choice)+1):
@@ -1584,13 +1565,13 @@ def getAssociates():
 	#(Son and daughter, not 'children' in the context of Python classes)
 	# IN ALPHA THESE ARE SIMPLY THE 'PERSON' CLASS
 	print ("How many of the Main Subject's parents do you have information on?")
-	parents_choice = raw_input("> Enter the number here  >:")
+	parents_choice = raw_input("> Enter the number here >:")
 	
 	# If user inputs a choice not on the list of provided choices, the process repeats until they do.
 	while not at_least_one_dig_reg.match(parents_choice):
 		print (" [-] Invalid choice, try again.")
 		print ("How many of the Main Subject's parents do you have information on?")
-		parents_choice = raw_input("> Enter the number here  >:")
+		parents_choice = raw_input("> Enter the number here >:")
 		
 	if (parents_choice) != str(0):
 		for i in range(1,int(parents_choice)+1):
@@ -1601,13 +1582,13 @@ def getAssociates():
 	#Get number of Sibling instances that will be created
 	# IN ALPHA THESE ARE SIMPLY THE 'PERSON' CLASS
 	print ("How many of the Main Subject's siblings do you have information on? \nEnter '0' if there are none.")
-	siblings_choice = raw_input("> Enter the number here  >:")
+	siblings_choice = raw_input("> Enter the number here >:")
 	
 	# If user inputs a choice not on the list of provided choices, the process repeats until they do.
 	while not at_least_one_dig_reg.match(siblings_choice): 
 		print (" [-] Invalid choice, try again.")
 		print ("How many of the Main Subject's siblings do you have information on? \nEnter '0' if there are none.")
-		siblings_choice = raw_input("> Enter the number here  >:")
+		siblings_choice = raw_input("> Enter the number here >:")
 		
 	if (siblings_choice) != str(0):
 		for i in range(1,int(siblings_choice)+1):
@@ -1618,13 +1599,13 @@ def getAssociates():
 	# Get number of pet instances that will be created
 	# IN ALPHA THESE ARE SIMPLY THE 'PERSON' CLASS
 	print ("How many of the Main Subject's pets do you have information on? \nEnter '0' if there are none.")
-	pets_choice = raw_input("> Enter the number here  >:")
+	pets_choice = raw_input("> Enter the number here >:")
 	
 	# If user inputs a choice not on the list of provided choices, the process repeats until they do.
 	while not at_least_one_dig_reg.match(pets_choice): 
 		print (" [-] Invalid choice, try again.")
 		print ("How many of the Main Subject's pets do you have information on?\nEnter '0' if there are none.")
-		pets_choice = raw_input("> Enter the number here  >:")
+		pets_choice = raw_input("> Enter the number here >:")
 		
 	if (pets_choice) != str(0):
 		for i in range(1,int(pets_choice)+1):
@@ -1819,6 +1800,12 @@ def getMoreYears():
 		  
  Want to add any other specific years? Simply press enter if not.
  Adding years that are in the future is permitted.
+ 
+ Only 4 Digit years are allowed.
+ Years with fewer digits can be added in "Add Additional Numbers'
+ 
+ Era (AD, CE, BC, BCE) is not allowed -
+ Years with Era must be added in "Add Addtional Words"
  """)
 	add_spec_years = [] #list that will be populated with additional years
 	
@@ -1930,7 +1917,6 @@ def getYearRange():
 				ending_year = raw_input("> Enter END year in YYYY format >:")
 			else: valid = True
 				
-			
 		else: valid = True
 		
 	year_range = []		
@@ -1938,10 +1924,7 @@ def getYearRange():
 		year_range.append(str(year))
 	
 	return year_range
-	
-	#If user types in a bad value, then decides to enter null	
-	if len(year_range) ==0: return '' #if no range entered, return null
-	
+		
 #Function to request additional misc. words
 def getMoreWords():
 	print ("""--- Get Additional Words ---
@@ -1950,6 +1933,9 @@ def getMoreWords():
  This is the time to add any information you
  might have that was not asked about previously.
  If you wish to add numbers in HEXIDECIMAL, you must do so here.
+ 
+ If you are guessing the password for a given domain or purpose,
+ consider entering its name here.
  
  Inputs containing spaces will have variations generated
  that do NOT include spaces.
@@ -1974,11 +1960,11 @@ def getMoreWords():
 		
 		else:
 		
-			if ' ' in add_word: add_words.extend(spaceHandler(spaceShaver(add_word)))
+			if ' ' in add_word: add_words.append(spaceHandler(spaceShaver(add_word)))
 			# creates a variants of a string containing spaces
 			#but removes trailing spaces
 			
-			else:add_words.extend(spaceShaver(add_word)) #removes trailing spaces
+			else:add_words.append(spaceShaver(add_word)) #removes trailing spaces
 		
 		
 		add_word = raw_input("> Enter an additional word here, or simply press enter to move on >:")
@@ -1998,7 +1984,7 @@ def getMoreNumbers():
 	
 	add_nums = [] #list that will be populated with additional numbers
 	
-	add_num = raw_input("> Enter an additional number, or simply press enter to move on  >:")
+	add_num = raw_input("> Enter an additional number, or simply press enter to move on >:")
 	
 	# If the user enters a value, it must meet criteria
 	# until all criteria is met, or a Null value is entered, BEWGor will keep asking
@@ -2006,20 +1992,20 @@ def getMoreNumbers():
 		
 		if nonzero_blankspace_reg.match(add_num): #rejects inputs of just empty space characters
 			print (' [-] Empty space, try again.')
-			add_num = raw_input("> Enter an additional number, or simply press enter to move on  >:")
+			add_num = raw_input("> Enter an additional number, or simply press enter to move on >:")
 		
 		elif not at_least_one_dig_reg.match(add_num): #rejects inputs that are not only numbers
 			print (" [-] Invalid characters, try again.")
-			add_num = raw_input("> Enter an additional number, or simply press enter to move on  >:")
+			add_num = raw_input("> Enter an additional number, or simply press enter to move on >:")
 			
 		elif add_num in add_nums: #rejects inputs that have already been entered
 			print (' [-] That input has already been added to the list. Try again.')
-			add_num = raw_input("> Enter an additional number, or simply press enter to move on  >:")
+			add_num = raw_input("> Enter an additional number, or simply press enter to move on >:")
 		
 		else:
 			add_nums.append(add_num) #adds number to list if valid
 		
-		add_num = raw_input("> Enter an additional number, or simply press enter to move on  >:")
+		add_num = raw_input("> Enter an additional number, or simply press enter to move on >:")
 		
 	add_nums = list(set(add_nums)) #removes duplicates, just in case
 	return add_nums
@@ -2035,13 +2021,13 @@ def getBirthdayRange(birth_day,year_range):
  Birthdays detected as in the future will not be added.
  """)
 	
-	guess_bday_choice = raw_input('> Would you like to do this? (Y\N)  >:').upper() # #only determines possible full dates if user allows it
+	guess_bday_choice = raw_input('> Would you like to do this? (Y/N) >:').upper() # #only determines possible full dates if user allows it
 	
 	guess_bday_choice = spaceShaver(guess_bday_choice) # cleans up input and stops false negative with "yes "
+		
+	poss_bdays = [] #list to store possible birthdays	
 							
 	if guess_bday_choice in "YES" and len(guess_bday_choice) != 0: #if user enters 'yesno,' they think they are slick and BEWGor will treat their input as a 'yes'
-		
-		poss_bdays = [] #list to store possible birthdays
 		
 		# This block iterates through the list of years, and adds valid birthdays to the list
 		# It rejects birthdays that are in the future, or take place on non-existant leap days
@@ -2067,7 +2053,7 @@ def getChineseZodiacRange(year_range):
  Additional prompts may appear to clear up possible translations.
  """)
 	
-	more_CN_zod_choice = raw_input('> Would you like to do this? (Y\N)  >:').upper() # #only determines/includes these Chinese Zodiac signs if user allows it
+	more_CN_zod_choice = raw_input('> Would you like to do this? (Y/N) >:').upper() # #only determines/includes these Chinese Zodiac signs if user allows it
 		
 	more_CN_zod_choice = spaceShaver(more_CN_zod_choice) # cleans up input and stops false negative with "yes "
 		
@@ -2115,8 +2101,9 @@ if len(sys.argv) >= 2 and sys.argv[1] == '-help': # shows help info if user inpu
 	print ("	-input	Prompts user for information on a Person to generate potential passwords" )
 	print ("    <no arugment > is treated the same as -input") #if the user does not provide an argument, prompts will appear
 	
-	#ALPHA NOTE: this function will be included in future releases
-	#print ("	-import	Generates variations and permutations from text file" ) 
+	#ALPHA NOTE: these functions may be included in future releases
+	#print ("	-import	Generates variations and permutations from text file" )
+	#print ("   -input-min  Prompts user to input the minimum amount of)
 	exit()
 
 #------------------Run Script----------------------#
@@ -2144,23 +2131,27 @@ elif len(sys.argv) < 2 or sys.argv[1] == '-input': # runs script if user inputs 
  Your answers will be used to generate a wordlist.
  The lists are generated using all permutations of inputted numbers and words.
 
- If you are unable or uninterested in providing an input for a specific prompt -
- ***You can leave any prompt blank by simply pressing ENTER***
+ If you are unable or uninterested in providing input for a specific prompt...
+ 
+      ***ANY PROMPT CAN BE LEFT BLANK BY PRESSING ENTER***
 
  If you do not know how to answer a prompt, more research may be needed.
  Use  --- http://wwww.osintframework.com/ --- to find many useful tools.
  
-	***PAY ATTENTION***
-	Many prompts include specific details about input - read carefully.
-	Failing to do so will result in a poor quality wordlist!
+	           ***PAY ATTENTION***
+	
+   Many prompts include specific details about input - read carefully.
+   Failing to do so will result in a poor quality wordlist!
 
- Let's begin!""")
+ Let's begin!
+ """)
 	
 	hold_up() # "Press Enter to Contrinue"
 
 #------------------Get Main Subject Information----------------------#
-	
-	print("\n \n------------------Section A: Main Subject Information----------------------\n")
+
+	divider()
+	print("\n------------------Section A: Main Subject Information----------------------\n")
 	
 	# Constructs Main Subject Instance
 	main_subject = MainSubject('The Main Subject','','','','','','','','','','','','','','','') 
@@ -2186,7 +2177,7 @@ elif len(sys.argv) < 2 or sys.argv[1] == '-input': # runs script if user inputs 
  Children, Siblings and Pets.
  """)
  
-	associates_choice = raw_input("Do you have information on any of " + main_subject.name + "'s family or associates? (Y\N) >:").upper()
+	associates_choice = raw_input("Do you have information on any of " + main_subject.name + "'s family or associates? (Y/N) >:").upper()
 	
 	associates_choice = spaceShaver(associates_choice)
 	
@@ -2233,7 +2224,7 @@ elif len(sys.argv) < 2 or sys.argv[1] == '-input': # runs script if user inputs 
 		divider()
 		
 		# If a range of years is given, BEWGor may generate Chinese Zodiac Signs
-		important_words.append(getChineseZodiacRange(year_range)) #from this range of years, we can generate Chinese Zodiac signs
+		important_words.extend(getChineseZodiacRange(year_range)) #from this range of years, we can generate Chinese Zodiac signs
 			
 	divider()
 	#Request additional full dates by calling function
@@ -2248,7 +2239,8 @@ elif len(sys.argv) < 2 or sys.argv[1] == '-input': # runs script if user inputs 
 	divider()
 	
 	important_words.extend(getMoreWords()) #get additional words by calling function
-	important_words= list(set(important_words)) #Remove Duplicate words
+	
+	important_words = list(set(important_words)) #Remove Duplicate words
 	
 	# Iterates over all important words and checks for entries that contain only blankspace
 	# These were prevented from being added at any point so far, but this ensures it
@@ -2256,8 +2248,19 @@ elif len(sys.argv) < 2 or sys.argv[1] == '-input': # runs script if user inputs 
 	for item in important_words: 
 		if nonzero_blankspace_reg.match(item): important_words.remove(item)
 	
-	# Output entries to a file for future use, if user requestes
-	outputLiterals(list(set(important_words + important_years + important_full_dates + important_numbers + important_days)))
+	
+	if len(important_words + important_years + important_full_dates + important_numbers + important_days) != 0:
+		# Output entries to a file for future use, if user requestes
+		divider()
+		outputTerms(list(set(important_words + important_years + important_full_dates + important_numbers + important_days)))
+	else:
+		print ('\n')
+		divider()
+		showMiniName()
+		print('\nBEWGor can only work if you answer at least one of the prompts!')
+		print('You did not enter in any information! \n\nBEWGor will now exit\n\n')
+		divider()
+		exit()
 
 
 # ------ ALPHA RELEASE NOTE -----
@@ -2293,7 +2296,7 @@ elif len(sys.argv) < 2 or sys.argv[1] == '-input': # runs script if user inputs 
 	print("\n Do you wish to create reversals of all words (not numbers) mentioned so far?")
 	print (" This will double the quantity of words to be permuted from " + str(len(important_words)) + " to " + str(2 *len(important_words)) + '.')
 	print (" This will DRASTICALLY affect the number of possibilities generated. \n")
-	reverse_word_choice = raw_input('> Would you like to do this? (Y\N) >:').upper()
+	reverse_word_choice = raw_input('> Would you like to do this? (Y/N) >:').upper()
 
 	reverse_word_choice = spaceShaver(reverse_word_choice) # cleans up input and stops false negative with "yes "
 
@@ -2362,11 +2365,11 @@ elif len(sys.argv) < 2 or sys.argv[1] == '-input': # runs script if user inputs 
 	#A person might know enough not to include an obvious number like their birth year, but want to keep
 	#things easy to remember - in this instance they may simply reverse the number
 	print("\n Do you wish to create reversals of all numbers (years, days, etc.) mentioned so far?")
-	print(" Note these are not reversals in the style of '01012017' becoming '20170101,' but")
+	print(" Note these are not reversals in the style of '01012017' becoming '20170101,'")
 	print(" But literal reversals. '01012017' becomes '71021010' ")
 	print (" This will double the quantity of numbers to be permuted from " + str(len(important_numbers)) + " to " + str(2 *len(important_numbers)) +'.')
 	print (" This will DRASTICALLY affect the number of possibilities generated. \n")
-	reverse_number_choice = raw_input('> Would you like to do this? (Y\N) >:').upper()
+	reverse_number_choice = raw_input('> Would you like to do this? (Y/N) >:').upper()
 
 	reverse_number_choice = spaceShaver(reverse_number_choice) # cleans up input and stops false negative with "yes "
 
@@ -2376,7 +2379,7 @@ elif len(sys.argv) < 2 or sys.argv[1] == '-input': # runs script if user inputs 
 		important_numbers.extend([(important_numbers[i])[::-1] for i in range(len(important_numbers))]) #Get reversals of all the numbers, if requested
 	#Get reversals of all the numbers, if requested
 	
-	print (' Number Reversals Created')
+		print (' Number Reversals Created')
 	
 
 	#Sort and remove duplicates from important_numbers again, now that we have made changes
@@ -2447,8 +2450,8 @@ elif len(sys.argv) < 2 or sys.argv[1] == '-input': # runs script if user inputs 
 		perms = perm_lens[perm_length]
 	
 		#Puts a long string of numbers into perspective
-		print('A permutation length of ' + str(perm_length) +' will have to parse ' + str(round(perms/1000000000.00,3)) + ' billion (' + str(round(perms/1000000.00,3)) + ' million) lines.')
-		big_num_choice = raw_input('Are you sure you want to use this permutation length? (Y\N)  >:').upper()
+		print('A permutation length of ' + str(perm_length) +' will have to parse ' + str(round(perms/1000000000.00,2)) + ' billion (' + str(round(perms/1000000.00,2)) + ' million) lines.')
+		big_num_choice = raw_input('Are you sure you want to use this permutation length? (Y/N) >:').upper()
 	
 		big_num_choice = spaceHandler(big_num_choice) # cleans up input and stops false negative with "yes "
 	
@@ -2466,13 +2469,13 @@ elif len(sys.argv) < 2 or sys.argv[1] == '-input': # runs script if user inputs 
  The default --MINIMUM-- line length is 1
  You may set a minimumline length below:
  """)
-	min_line_length = raw_input('> Enter the minimum line length  >:')
+	min_line_length = raw_input('> Enter the minimum line length >:')
 	
 	if len(min_line_length) != 0:
 		
 		while not at_least_one_dig_reg.match(min_line_length): #check that the input is valid
 			print (" [-] Invalid input. Try again.")
-			min_line_length = raw_input('> Enter the minimum line length  >:')
+			min_line_length = raw_input('> Enter the minimum line length >:')
 		min_line_length = int(min_line_length)
 	else: min_line_length = 1
 	
@@ -2493,29 +2496,30 @@ elif len(sys.argv) < 2 or sys.argv[1] == '-input': # runs script if user inputs 
 	if len(max_line_length) != 0:
 		while not at_least_one_dig_reg.match(max_line_length): #check that the input is valid
 			print (" [-] Invalid input. Try again.")
-			max_line_length = raw_input('> Enter the maximum line length  >:')
+			max_line_length = raw_input('> Enter the maximum line length >:')
 		max_line_length = int(max_line_length)
 	else: max_line_length = 20
 	
 	
 	divider()
-	print("\n------Output File Name----- \n")
+	print("\n------Output Wordlist File Name----- \n")
 	print(""" This action will OVERWRITE any identically named
  file in your current directory.
- If a name is not provided, the default name is 'BEWGor_List.txt'
+ If a name is not provided, the default name is 'BEWGor_Wordlist.txt'
  
  The filename can only include letters, numbers, dashes and underscores.
  """)
-	outfile_name = raw_input("> Enter the output file name, without the .txt extension  >:")
+	outfile_name = raw_input("> Enter the output file name, without the .txt extension >:")
 	
-	while len(outfile_name) !=0 and not filename_reg.match(outfile_name):
+	while len(outfile_name) !=0 and not filename_reg.match(outfile_name): #Yes, the '.' belongs in the regex but... next relase.
 			print(' [-] Invalid filename, try again.')
-			outfile_name = raw_input("> Enter the output file name, without the .txt extension  >:")
+			outfile_name = raw_input("> Enter the output file name, without the .txt extension >:")
 			
 	if len(outfile_name) ==0 :
-		outfile_name = "BEWGor_List"
+		outfile_name = "BEWGor_Wordlist"
 		
-	pause = raw_input('\n Press enter to generate ' + str(perms) +' lines and \n write lines of proper length to the file...')
+	print ('\nReady to generate '+str(perms)+' lines and write the lines of appropriate \nlength to '+outfile_name+'.txt!')
+	pause = raw_input('\n     Press ENTER to let the BEWGor fly...')
 
 	outfile = open(outfile_name+'.txt','w+') #open file
 	outfile.truncate() #clear file
@@ -2525,7 +2529,11 @@ elif len(sys.argv) < 2 or sys.argv[1] == '-input': # runs script if user inputs 
 			bounded_permutations(info, min_line_length, max_line_length,outfile_name, i)
 			
 	outfile.close() #close file
-	print ("\n " + outfile_name + " has been written.")
 	
+	divider()
+	print ("\n"+outfile_name+".txt has been written. \n")
 	
+	divider()
+	showMiniName()
+	print('\nThank you for using BEWGor!')
 	exit()
