@@ -128,7 +128,8 @@ This may be slimmed down in the future, but why not err on the side of having al
  * From this information, it can generate initials, Greek and Chinese Zodiac Signs and Birthstone (Western and Hindu Style)
 
 
-#### Main Subject:
+##### Main Subject:
+ * Everything in All Subjects
  * Gender Identity
  * Nationality
  * National Demonym (Such as Briton, or British)
