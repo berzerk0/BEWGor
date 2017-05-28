@@ -17,3 +17,10 @@
 * Ran code through Codacy
 * Updated all files before official release
 * Changed the term ‘literals’ to ‘term’s because of potential confusion
+* DROPPED ALPHA RELEASE
+
+
+### 28 May 2017
+* Made formatting/proofreading changes to the README.md
+* Adding Issue About Number of Junk Lines - thinking of ways to slim down
+

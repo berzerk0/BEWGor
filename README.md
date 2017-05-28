@@ -43,7 +43,7 @@ To see an example, check out the
 ## What are “likely” passwords for a given subject?
 
 When it comes to generating passwords, humanity, on average, has not demonstrated too much creativity. 
-The most common password is *123456* and the 2nd most common is “*password*. 
+The most common password is *123456* and the 2nd most common is *password*. 
 My first project, __[Probable-Wordlists](https://github.com/berzerk0/Probable-Wordlists)__ explores this in depth. 
 It contains billions of the world’s most common passwords - in order of how common they are. 
 
@@ -97,8 +97,7 @@ It prompts the user for a lot more specific information, but not have all of CUP
  2. ’l33t’ variations might be included in a future release, but for now, using a program like [HashCat](https://hashcat.net/hashcat/) will allow you to create 133t-style and other variations of a BEWGOr wordlist as-needed
  3. HashCat can do this as well with the ‘rule’ function
  4. BEWGor is not subtle, it will generate ALL the combinations - including plenty of unlikely ones. 
-
-This may be slimmed down in the future, but why not err on the side of having all the possibilities?
+ * This may be slimmed down in the future, but why not err on the side of having all the possibilities?
 
 
 ## Areas With Room For Improvement
@@ -113,9 +112,7 @@ This may be slimmed down in the future, but why not err on the side of having al
 
 ### What information does BEWGor collect?
 
-*In Alpha release, associates are limited to:*
-
- *1 Significant other, and an arbitrary number of Children, Parents, Siblings and Pets.*
+*In Alpha release, associates are limited to: 1 Significant other, and an arbitrary number of Children, Parents, Siblings and Pets.*
 
 ##### All Subjects
  * Full Name
@@ -123,7 +120,7 @@ This may be slimmed down in the future, but why not err on the side of having al
  * Nicknames/Usernames
  * Birthday (day and month)
  * Birth Year
- * From this information, it can generate initials, Greek and Chinese Zodiac Signs and Birthstone (Western and Hindu Style)
+ * From this information, it can generate initials, Greek/Chinese Zodiac Sign and  Birthstone (Western and Hindu Style)
 
 
 ##### Main Subject:
