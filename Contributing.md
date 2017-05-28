@@ -11,5 +11,10 @@
 5. Submit a pull request to the main repository
 6. I'll have a look and seriously consider your changes
 
+## Typos, Grammar, Proofreading
+ * No need to make a branch
+ * Just point out the document where you found a problem
+ * I'll fix it
+ 
 
  [![BEWGor uses the GNU GPL v3](https://www.gnu.org/graphics/gplv3-127x51.png)](https://www.gnu.org/licenses/gpl-3.0.en.html)
