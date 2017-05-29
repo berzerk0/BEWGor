@@ -24,4 +24,5 @@
 * Made formatting/proofreading changes to the README.md
 * Adding Issue About Number of Junk Lines - thinking of ways to slim down
 * Updated Contributing.md
+* Fixed the “Remove Leading Zeroes” Function - no longer named “createNoZeroDays”
 

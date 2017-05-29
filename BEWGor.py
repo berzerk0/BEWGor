@@ -1635,7 +1635,7 @@ def showTheName():
  
 
  by berzerk0 @ Github
- Version 0.0 - 'FLAT' ALPHA RELEASE
+ Version 0.0.1 - 'FLAT' ALPHA RELEASE
 	""")
 
 #Function to show the mini ASCII Art
@@ -2070,25 +2070,30 @@ def getChineseZodiacRange(year_range):
 
 #Function to strip optional zeroes of dates
 #e.g 02/02/2017 -> 2/2/2017
-def createNonZeroDays(daylist):
+def createNoLeadingZeroDays(daylist):
 	
-	nozero_days = [] #empty list to be filled with days purged of zeroes
+	no_leading_zero_days = [] #empty list to be filled with days purged of zeroes
 	
 	if len(daylist) > 0: #only perform zero purge if there are any days to purge
 		
 		#Removes zeroes from days to match potentially different formats
-		#I.E if you entered 2 March as "0203" it will return "23"
+		#I.E if you entered 2 March as "02/03" it will return "23"
+		# If you entered 20/03 it will return 203
 		
 		for day in daylist: #for all days in list
-			nozero_day = '' #blank string to be filled with nonzero characters
 			
-			for char in day: #for all characters in the given day 
-				if char != '0': nozero_day += char #add non-zero characters to string
+			if '0' in day[0] or '0' in day[2]: #if leading zeroes present
+				
+				nlz_day = day[0:2] #isolate day
+				nlz_mon = day[2:4] #isolate month
 			
-			nozero_days.append(nozero_day) #add string of non-zero characters to list of days purged of zeros
+				if nlz_day[0] == '0': nlz_day = nlz_day[1] # Remove leading zero from day
+				if nlz_mon[0] == '0': nlz_mon =nlz_mon[1] # Remove leading zero from month
 			
-
-	return nozero_days
+				no_leading_zero = nlz_day+nlz_mon #combine strings purged of leading zeroes
+				no_leading_zero_days.append(no_leading_zero) #add 
+			
+	return no_leading_zero_days
 
 #------------------Show Help Information----------------------#
 if len(sys.argv) >= 2 and sys.argv[1] == '-help': # shows help info if user inputs '-help' as an argument
@@ -2328,7 +2333,7 @@ elif len(sys.argv) < 2 or sys.argv[1] == '-input': # runs script if user inputs 
 	#We've prompted for days that had to be 4 digits long
 	#A person might not enter in 2 February as 02/02, but 2/2
 	#This function generates variations without the optional zero
-	important_days.extend(createNonZeroDays(important_days))
+	important_days.extend(createNoLeadingZeroDays(important_days))
 
 	#Sort and remove duplicates from important_days
 	important_days = list(set(important_days))
