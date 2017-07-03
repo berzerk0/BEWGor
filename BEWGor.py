@@ -1046,7 +1046,7 @@ class MainSubject(Person):
 						entered.append('female')
 						
 						fem_syn_choice = raw_input('> Would you like to include 10 English synonyms for Female? (Y/N) >:').upper()
-						fem_syn_choice = spaceShaver(male_syn_choice)	
+						fem_syn_choice = spaceShaver(fem_syn_choice)	
 
 						if fem_syn_choice in "YES" and len(fem_syn_choice) != 0:
 							gender_cands.extend(['woman','girl','gal','chick','lady','mrs','ms','miss','misses','grrl','gurl','madame'])
