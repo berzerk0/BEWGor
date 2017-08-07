@@ -59,7 +59,7 @@ Passwords often include information like:
  * The password holder’s nationality
 
 Due to Social Media use and the strength of modern day Open-Source Intelligence (OSINT), this information is *NOT HARD TO COME BY.*
- Therefore, making it it your password is *NOT SECURE.*
+ Therefore, including it in your password is *NOT SECURE.*
 
  __BEWGor asks for information about a person, and those they associate with, and generates potential passwords based on that data.__
 
