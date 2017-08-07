@@ -26,3 +26,5 @@
 * Updated Contributing.md
 * Fixed the “Remove Leading Zeroes” Function - no longer named “createNoZeroDays”
 
+### 07 August 2017
+* Fixed a few typos
