@@ -1,5 +1,3 @@
-# This project has been MOVED to my organization's page
-[https://github.com/FadedSecurity/BEWGor](https://github.com/FadedSecurity/BEWGor)
 
 # BEWGor - Bull's Eye Wordlist Generator
 *Pick your knows!*
