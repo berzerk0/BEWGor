@@ -177,6 +177,8 @@ This file can be edited outside of the script but can be fed into BEWGor directl
  * The files contained in this repository are released "as is" without warranty, support, or guarantee of effectiveness. 
  * _However, I am open to hearing about any issues found within these files and will be actively maintaining this repository for the foreseeable future. If you find anything noteworthy, let me know and I'll see what I can do about it._
 
+The author's intent for this project is to provide information on insecure passwords in order to increase overall password security. This script creates passwords based on common patterns to demonstrate what you should avoid when creating new passwords.
+It does not scrape any information from the web, nor upload or transmit the results - it merely saves permuations of manually inputted data into a local file.
 
 
  [![BEWGor uses the GNU GPL v3](https://www.gnu.org/graphics/gplv3-127x51.png)](https://www.gnu.org/licenses/gpl-3.0.en.html)
