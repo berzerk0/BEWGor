@@ -28,3 +28,7 @@
 
 ### 07 August 2017
 * Fixed a few typos
+
+### 9 Feb 2018
+* Haven't forgotten about you, BEWGor!
+* Fixed some formatting and typos
