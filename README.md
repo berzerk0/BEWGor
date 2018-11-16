@@ -8,9 +8,11 @@ __Inspired by and based on [Mebus' CUPP](https://github.com/Mebus/cupp)__
 
 Alpha Version - Released 27 May 2017
 
-<br>
+
+
 ![Pick Your Knows!](https://raw.githubusercontent.com/berzerk0/BEWGor/master/bewgor_nose.png "Pick Your Knows!")
-<br>
+
+
 
 ## Alpha version is "Flat"
   This means all associates are treated equally, and BEWGor only queries basic information about them
