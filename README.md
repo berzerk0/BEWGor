@@ -9,7 +9,7 @@ __Inspired by and based on [Mebus' CUPP](https://github.com/Mebus/cupp)__
 Alpha Version - Released 27 May 2017
 
 <br>
-![Pick Your Knows!](bewgor_nose.png)
+![bewgor_nose.png](Pick Your Knows!)
 <br>
 
 ## Alpha version is "Flat"
