@@ -2308,7 +2308,7 @@ elif len(sys.argv) < 2 or sys.argv[1] == '-input': # runs script if user inputs 
 	#If user wishes, create reversal of words
 	if reverse_word_choice in "YES" and len(reverse_word_choice) != 0: #if user enters 'yesno,' they think they are slick and BEWGor will treat their input as a 'yes'
 		
-		important_words.extend([(important_words[i])[::-1] for i in range(len(important_words))]) #creates reversals of all variations and originals
+		important_words.extend([word[::-1] for word in important_words]) #creates reversals of all variations and originals
 		
 	print (' [+] Word Reversals Created')
 	
@@ -2381,7 +2381,7 @@ elif len(sys.argv) < 2 or sys.argv[1] == '-input': # runs script if user inputs 
 	#If user wishes, create reversal of numbers
 	if reverse_word_choice in "YES" and len(reverse_word_choice) != 0: #if user enters 'yesno,' they think they are slick and BEWGor will treat their input as a 'yes'
 		
-		important_numbers.extend([(important_numbers[i])[::-1] for i in range(len(important_numbers))]) #Get reversals of all the numbers, if requested
+		important_numbers.extend([number[::-1] for number in important_numbers]) #Get reversals of all the numbers, if requested
 	#Get reversals of all the numbers, if requested
 	
 		print (' Number Reversals Created')
