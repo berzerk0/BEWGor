@@ -183,8 +183,8 @@ def bounded_permutations(iterable, min_length, max_length, outfile_name, r=None)
 	n = len(pool)
 	r = n if r is None else r
 	if r > n: return
-	indices = range(n)
-	cycles = range(n, n-r, -1)
+	indices = list(range(n))
+	cycles = list(range(n, n-r, -1))
 	
 	#Measures the string length of the created permutation - and only passes it along if it fits within boundaries
 	if min_length <= len(str(''.join((tuple(pool[i] for i in indices[:r]))))) <= max_length:
@@ -192,7 +192,7 @@ def bounded_permutations(iterable, min_length, max_length, outfile_name, r=None)
 		outfile.writelines((str(''.join(tuple(pool[i] for i in indices[:r])))) + '\n')
 		
 	while n:
-		for i in reversed(range(r)):
+		for i in reversed(list(range(r))):
 			cycles[i] -= 1
 			if cycles[i] == 0:
 				indices[i:] = indices[i+1:] + indices[i:i+1]
