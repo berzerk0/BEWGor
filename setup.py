@@ -17,7 +17,8 @@ setup(
     long_description_content_type='text/markdown',
     keywords=['wordlist', 'dictionary-attack'],
     author='berzerk0',
-    url='https://github.com/berzerk0/BEWGor',
+    maintainer='glozanoa',
+    url='https://github.com/fpolit/BEWGor',
     license='GPL3',
     classifiers = [
         "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
